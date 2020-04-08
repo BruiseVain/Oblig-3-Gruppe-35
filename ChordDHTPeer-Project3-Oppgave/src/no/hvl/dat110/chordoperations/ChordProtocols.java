@@ -5,6 +5,7 @@ package no.hvl.dat110.chordoperations;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import no.hvl.dat110.middleware.Node;
@@ -61,7 +62,7 @@ public class ChordProtocols {
 
 	}
 	
-	public void fixFingerTable() {
+	public void fixFingerTable() throws NoSuchAlgorithmException {
 		
 		try {
 			System.out.println("Fixing the FingerTable for the Node: "+ chordnode.getNodeName());

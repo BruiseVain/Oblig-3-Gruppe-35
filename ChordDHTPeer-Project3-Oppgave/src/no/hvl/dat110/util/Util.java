@@ -1,6 +1,8 @@
 package no.hvl.dat110.util;
 
 
+import java.math.BigDecimal;
+
 /**
  * dat110
  * @author tdoy
@@ -11,6 +13,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,16 +38,42 @@ public class Util {
 	 * @param lower
 	 * @param upper
 	 * @return true if (lower <= id <= upper) or false otherwise
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public static boolean computeLogic(BigInteger id, BigInteger lower, BigInteger upper) {
+	public static boolean computeLogic(BigInteger id, BigInteger lower, BigInteger upper){
 		
 		// a formula to check whether an id falls within the set {lower, upper} using the address size as our bound (modulos operation)
 		// it modifies 'upper' and 'id' when lower > upper e.g. set (6, 2) in mod 10 = {6, 7, 8, 9, 0, 1, 2}
 		
 		// implement: read the descriptions above
 		boolean cond = false;
-
 		
+		BigInteger modulo = Hash.addressSize();
+		
+		if(lower.compareTo(upper) > 0) {
+			if(id.compareTo(new BigInteger("0")) >= 0 && id.compareTo(upper) <= 0) {
+				id = id.add(modulo);
+			}
+			upper = upper.add(modulo);
+		}
+		
+		if((lower.compareTo(id) <= 0) && id.compareTo(upper) <= 0) {
+			cond = true;
+		}
+		
+		/*
+		if(lower.compareTo(upper) > 0) {
+			upper.add(modulo);
+		}
+		
+		if(id.compareTo(lower) < 0) {
+			id.add(modulo);
+		}
+		
+		if((lower.compareTo(id) <= 0) && (id.compareTo(upper) <= 0)) {
+			cond = true;
+		}
+		*/
 		return cond;
 	}
 	
